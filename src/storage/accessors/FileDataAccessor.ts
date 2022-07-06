@@ -94,8 +94,9 @@ export class FileDataAccessor implements DataAccessor {
       if (path.includes(".internal") || path.includes('README') || path.includes('setup') || path.split('/').length < 5) resolve()
       else {
         try {
+          const normalised = data.replaceAll("<>", `<${path}>`)
           const endpoint = process.env.SPARQL_STORE_ENDPOINT! + "/" + path.split('/')[3] + "/" + `?graph=${path}`
-          await fetch(endpoint, {method: "POST", body: data, headers: {"Content-Type": "text/turtle"}})
+          await fetch(endpoint, {method: "POST", body: normalised, headers: {"Content-Type": "text/turtle"}})
           this.logger.info(`Forwarded resource ${path} to SPARQL store`)
           // console.log(path)
 
