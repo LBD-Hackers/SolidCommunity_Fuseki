@@ -131,6 +131,10 @@ export class FileDataAccessor implements DataAccessor {
     const wroteMetadata = await this.writeMetadata(link, metadata);
 
     try {
+      if (link.contentType && rdfContentTypes.includes(link.contentType)) {
+        const data = fs.readFileSync(link.filePath, {encoding:'utf8', flag:'r'});
+        await this.uploadToSatellite(identifier.path, data)
+      }
       await this.writeDataFile(link.filePath, data);
     } catch (error: unknown) {
       // Delete the metadata if there was an error writing the file
@@ -140,13 +144,6 @@ export class FileDataAccessor implements DataAccessor {
       }
       throw error;
     }
-    if (link.contentType && rdfContentTypes.includes(link.contentType)) {
-      const data = fs.readFileSync(link.filePath,
-            {encoding:'utf8', flag:'r'});
- 
-    // Display the file data
-      await this.uploadToSatellite(identifier.path, data)
-    }
   }
 
   /**
@@ -155,7 +152,6 @@ export class FileDataAccessor implements DataAccessor {
   public async writeContainer(identifier: ResourceIdentifier, metadata: RepresentationMetadata): Promise<void> {
     const link = await this.resourceMapper.mapUrlToFilePath(identifier, false);
     await ensureDir(link.filePath);
-    await this.writeMetadata(link, metadata);
     const md = await this.getMetadata(identifier)
     const data = md.quads().map((triple): Quad => {
       if (triple.graph.termType === 'DefaultGraph') {
@@ -169,6 +165,9 @@ export class FileDataAccessor implements DataAccessor {
     const asTtl = await stringifyStream(textStream)
 
     await this.uploadToSatellite(identifier.path, asTtl)
+
+    await this.writeMetadata(link, metadata);
+
   }
   
 
