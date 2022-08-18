@@ -64,7 +64,15 @@ export class BaseHttpServerFactory implements HttpServerFactory {
       async(request: IncomingMessage, response: ServerResponse): Promise<void> => {
         try {
           this.logger.info(`Received ${request.method} request for ${request.url}`);
-          await this.handler.handleSafe({ request: guardStream(request), response });
+          if(request.url?.endsWith("/sparql")) {
+            const location = process.env.SPARQL_SATELLITE + request.url
+            response.writeHead(302, {
+              location
+            }).end()
+            
+          } else {
+            await this.handler.handleSafe({ request: guardStream(request), response });
+          }
         } catch (error: unknown) {
           let errMsg: string;
           if (!isError(error)) {
