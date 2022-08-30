@@ -5,4 +5,4 @@ Additional requirements:
 
 - Add an .env file to the root folder, pointing to a Fuseki endpoint (e.g. http://localhost:3030)
 - `npm i -g env-cmd`
-- install Apache
+- install Apache Fuseki 
