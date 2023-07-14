@@ -96,7 +96,9 @@ export class FileDataAccessor implements DataAccessor {
         try {
           const normalised = data.replaceAll("<>", `<${path}>`)
           const endpoint = process.env.SPARQL_STORE_ENDPOINT! + "/" + path.split('/')[3] + "/" + `?graph=${path}`
-          await fetch(endpoint, {method: "POST", body: normalised, headers: {"Content-Type": "text/turtle"}})
+          const auth = 'Basic ' + Buffer.from(process.env.FUSEKI_USERNAME + ":" + process.env.FUSEKI_PW).toString('base64')
+
+          await fetch(endpoint, {method: "POST", body: normalised, headers: {"Content-Type": "text/turtle", "Authorization": auth}})
           this.logger.info(`Forwarded resource ${path} to SPARQL store`)
           // console.log(path)
 

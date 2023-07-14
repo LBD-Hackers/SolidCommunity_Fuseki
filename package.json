@@ -67,12 +67,6 @@
     "validate": "componentsjs-compile-config urn:solid-server:default:Initializer -c config/default.json -f > /dev/null",
     "watch": "nodemon --watch \"dist/**/*.js\" --exec npm start"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run build && npm run lint && npm run test:unit && npm run test:integration",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
   "standard-version": {
     "scripts": {
       "postbump": "ts-node ./scripts/upgradeConfig.ts",
