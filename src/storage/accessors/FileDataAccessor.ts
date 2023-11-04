@@ -181,6 +181,17 @@ export class FileDataAccessor implements DataAccessor {
 
     const link = await this.resourceMapper.mapUrlToFilePath(identifier, false);
     const stats = await this.getStats(link.filePath);
+    const path = link.filePath
+
+    if (!path.includes(".internal") && !path.includes('README') && !path.includes('setup') && identifier.path.split('/').length >= 5) {
+      const endpoint = process.env.SPARQL_STORE_ENDPOINT! + "/" + identifier.path.split('/')[3] + "/" + `?graph=${identifier.path}`
+      console.log('endpoint :>> ', endpoint);
+      await fetch(endpoint, {method: "DELETE"})
+      this.logger.info(`Deleted resource ${identifier.path} in SPARQL store`)
+    }
+
+
+
 
     if (!isContainerIdentifier(identifier) && stats.isFile()) {
       await remove(link.filePath);

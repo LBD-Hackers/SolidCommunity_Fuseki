@@ -240,7 +240,7 @@ export class RegistrationManager {
 
     let name = webId.replace("/profile/card#me", "").split('/')[webId.replace("/profile/card#me", "").split('/').length - 1]
     
-    const auth = 'Basic ' + Buffer.from(process.env.FUSEKI_USERNAME + ":" + process.env.FUSEKI_PW).toString('base64')
+    const auth = 'Basic ' + Buffer.from(process.env.SPARQL_STORE_USERNAME + ":" + process.env.SPARQL_STORE_PW).toString('base64')
     
     var requestOptions = {
       method: 'POST',

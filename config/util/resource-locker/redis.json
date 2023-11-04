@@ -9,7 +9,7 @@
         "@id": "urn:solid-server:default:RedisLocker",
         "@type": "RedisLocker"
       },
-      "expiration": 3000
+      "expiration": 30000
     },
     {
       "comment": "Makes sure the redis connection is closed when the application needs to stop. Also deletes still-existing locks and counters.",
