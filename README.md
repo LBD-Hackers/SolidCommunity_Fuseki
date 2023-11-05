@@ -8,5 +8,5 @@ This is a prototype [Solid Community Server](https://github.com/CommunitySolidSe
 ```SPARQL_STORE_ENDPOINT=http://localhost:3030```
 - Download and run [Apache Jena Fuseki](https://dlcdn.apache.org/jena/binaries/apache-jena-fuseki-4.10.0.zip): ```.\fuseki-serve``` (Windows)
 - Run ```npm run start:file```
-- Visit the Solid Server in your browser, and follow the steps indicated there to create your first Solid Pod. A database will be automatically created on the Fuseki instance.
+- Visit the Solid Server in your browser, and follow the steps indicated there to create your first Solid Pod. Make sure to create a Pod with its own namespace. A database will be automatically created on the Fuseki instance.
 - Done!
